@@ -1071,7 +1071,9 @@ function LBFooter() {
     <footer className="lb-footer" style={{ padding: '40px 60px', background: LBtheme.bg, borderTop: `1px solid ${LBtheme.line}` }}>
       <div className="lb-footer-inner" style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: LBgrotesk, fontSize: 13, color: LBtheme.inkMute }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ width: 22, height: 22, borderRadius: 6, background: LBtheme.coral }}/>
+          <div style={{ width: 22, height: 22, borderRadius: 6, background: LBtheme.coral, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="14" height="6" viewBox="0 0 60 10" fill="none" stroke={LBtheme.bg} strokeWidth="3.8" strokeLinecap="round" strokeLinejoin="round"><path d="M0 5 Q 7.5 0, 15 5 T 30 5 T 45 5 T 60 5"/></svg>
+          </div>
           <div style={{ color: LBtheme.ink, fontWeight: 600 }}>Urge Surfer</div>
           <div style={{ marginLeft: 12 }}>© 2026</div>
         </div>
