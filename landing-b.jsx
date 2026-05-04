@@ -1,5 +1,5 @@
 // landing-b.jsx — Direction B: Bold Conversion
-// Dark hero. Massive €5. Punchy CTA-first. Comparison front-loaded.
+// Dark hero. Massive €9,99. Punchy CTA-first. Comparison front-loaded.
 
 // Palette mirrors proto-b.jsx PB_PALETTES (sand/ink/kelp/coral) so the
 // landing site lives in the same world as the app. Variables are set on
@@ -186,7 +186,7 @@ function LBHero() {
               fontSize: 16, fontWeight: 600, letterSpacing: -0.2,
               boxShadow: '0 12px 32px var(--lb-coralA35)',
             }}>
-              <LBAppleIcon/> Buy on App Store — €5
+              <LBAppleIcon/> Buy on App Store — €9,99
             </a>
             <a href="Urge Surfer Prototype.html" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -311,7 +311,7 @@ function LBPricing() {
       <div id="pricing" style={{ textAlign: 'center', marginBottom: 80 }}>
         <LBTag color={LBtheme.kelp}>The deal</LBTag>
         <h2 className="lb-mega-h2" style={{ fontFamily: LBgrotesk, fontSize: 80, fontWeight: 700, letterSpacing: -3, lineHeight: 0.95, color: LBtheme.ink, marginTop: 28 }}>
-          €5 once.<br/><span style={{ color: LBtheme.coral }}>No subscription. Ever.</span>
+          €9,99 once.<br/><span style={{ color: LBtheme.coral }}>No subscription. Ever.</span>
         </h2>
         <p style={{ fontFamily: LBgrotesk, fontSize: 17, lineHeight: 1.5, color: LBtheme.inkDim, marginTop: 28, maxWidth: 580, margin: '28px auto 0' }}>
           Every wellness app is a subscription now. We refused. Pay once, the app is yours, free updates forever.
@@ -322,7 +322,7 @@ function LBPricing() {
         <div style={{ position: 'absolute', top: -40, right: -40, width: 200, height: 200, borderRadius: '50%', background: 'var(--lb-coralA20)', filter: 'blur(30px)' }}/>
         <div style={{ position: 'relative', textAlign: 'center' }}>
           <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 8 }}>
-            <div className="lb-mega-num" style={{ fontFamily: LBgrotesk, fontSize: 132, fontWeight: 700, color: LBtheme.coral, letterSpacing: -5, lineHeight: 0.9, fontVariantNumeric: 'tabular-nums' }}>€5</div>
+            <div className="lb-mega-num" style={{ fontFamily: LBgrotesk, fontSize: 132, fontWeight: 700, color: LBtheme.coral, letterSpacing: -5, lineHeight: 0.9, fontVariantNumeric: 'tabular-nums' }}>€9,99</div>
             <div style={{ fontFamily: LBdisplay, fontSize: 38, fontStyle: 'italic', fontWeight: 300, color: LBtheme.kelp }}>once.</div>
           </div>
           <div className="lb-feat-grid-2" style={{ marginTop: 28, gap: 14, textAlign: 'left', maxWidth: 520, margin: '28px auto 0' }}>
@@ -346,7 +346,7 @@ function LBPricing() {
             borderRadius: 14, textDecoration: 'none', fontFamily: LBgrotesk,
             fontSize: 16, fontWeight: 600, boxShadow: '0 12px 32px var(--lb-coralA30)',
           }}>
-            <LBAppleIcon/> Buy on App Store — €5
+            <LBAppleIcon/> Buy on App Store — €9,99
           </a>
         </div>
       </div>
@@ -457,6 +457,200 @@ function LBScience() {
   );
 }
 
+// ── Share progress ──────────────────────────────────────────
+// Strava-style: after a ridden wave the app lets you pick a photo
+// and slap a stats overlay on it. Five overlay styles. Composite is
+// rendered on-device, then handed to the system share sheet — never
+// transits our servers, so the privacy story still holds.
+function LBSharePhone({ width = 340, theme }) {
+  const p = LS_PALETTE[theme];
+  const scale = width / 402;
+  const fs = (n) => n * scale;
+  const inkOnPhoto = '#F4EFE6';
+  const overlayBg  = '#0F1517';
+
+  // Abstract glyphs for each overlay style. Real overlays in-app
+  // would be text; at this rendered size text becomes unreadable,
+  // so we suggest each style's character with a simple shape.
+  const tiles = [
+    { name: 'Minimal',  dark: false, glyph: (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: fs(2) }}>
+        <div style={{ fontFamily: '"Fraunces", Georgia, serif', fontSize: fs(20), fontWeight: 300, lineHeight: 1, color: p.ink }}>2d</div>
+        <div style={{ width: fs(16), height: 0.5, background: p.lineStr }}/>
+      </div>
+    )},
+    { name: 'Strava',   dark: true,  glyph: (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: fs(3), width: '70%' }}>
+        {[0.9, 0.65, 0.45].map((w, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: fs(3) }}>
+            <span style={{ width: fs(2.5), height: fs(2.5), borderRadius: '50%', background: '#7BA3A6', flexShrink: 0 }}/>
+            <span style={{ flex: 1, height: fs(1.5), borderRadius: 1, background: p.sand, opacity: 0.85, transform: `scaleX(${w})`, transformOrigin: 'left' }}/>
+          </div>
+        ))}
+      </div>
+    )},
+    { name: 'Ticker',   dark: true,  selected: true, glyph: (
+      <div style={{ width: '85%', display: 'flex', alignItems: 'center', gap: fs(3) }}>
+        <span style={{ width: fs(3), height: fs(3), borderRadius: '50%', background: '#7BA3A6', flexShrink: 0 }}/>
+        <span style={{ flex: 1, height: fs(1.5), borderRadius: 1, background: p.sand, opacity: 0.85 }}/>
+      </div>
+    )},
+    { name: 'Polaroid', dark: false, glyph: (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: fs(3) }}>
+        <svg width={fs(22)} height={fs(8)} viewBox="0 0 60 10" fill="none" stroke={p.ink} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"><path d="M0 5 Q 7.5 0, 15 5 T 30 5 T 45 5 T 60 5"/></svg>
+        <div style={{ fontFamily: '"Fraunces", Georgia, serif', fontStyle: 'italic', fontSize: fs(7), color: p.ink, opacity: 0.75 }}>cig-free</div>
+      </div>
+    )},
+    { name: 'Receipt',  dark: false, glyph: (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: fs(2.5), width: '78%', alignItems: 'stretch' }}>
+        <div style={{ height: fs(1), borderTop: `1px dashed ${p.ink}`, opacity: 0.55 }}/>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: fs(3) }}>
+          <span style={{ flex: 0.55, height: fs(1.5), background: p.ink, opacity: 0.7, borderRadius: 1 }}/>
+          <span style={{ flex: 0.25, height: fs(1.5), background: p.ink, opacity: 0.7, borderRadius: 1 }}/>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: fs(3) }}>
+          <span style={{ flex: 0.4, height: fs(1.5), background: p.ink, opacity: 0.7, borderRadius: 1 }}/>
+          <span style={{ flex: 0.3, height: fs(1.5), background: p.ink, opacity: 0.7, borderRadius: 1 }}/>
+        </div>
+        <div style={{ height: fs(1), borderTop: `1px dashed ${p.ink}`, opacity: 0.55 }}/>
+      </div>
+    )},
+  ];
+
+  return (
+    <div style={{ width, position: 'relative' }}>
+      <div style={{
+        position: 'relative', width, aspectRatio: '402 / 874',
+        borderRadius: width * 0.13,
+        background: '#0A0A0A',
+        padding: width * 0.022,
+        boxShadow: '0 30px 80px rgba(15,30,40,0.18), 0 4px 12px rgba(15,30,40,0.08)',
+      }}>
+        <div style={{
+          position: 'absolute', inset: width * 0.022,
+          borderRadius: width * 0.108,
+          overflow: 'hidden',
+          background: p.sand, color: p.ink,
+          fontFamily: '-apple-system, system-ui, sans-serif',
+        }}>
+          <LSStatusBar p={p} scale={scale}/>
+
+          <div style={{ position: 'absolute', top: fs(56), left: fs(18), right: fs(18), display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <svg width={fs(20)} height={fs(20)} viewBox="0 0 24 24" fill="none" stroke={p.ink} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <div style={{ fontSize: fs(15), fontWeight: 600 }}>Share</div>
+            <div style={{ fontSize: fs(14), color: p.kelp, fontWeight: 500 }}>Post</div>
+          </div>
+
+          <div style={{ position: 'absolute', top: fs(98), left: fs(18), right: fs(18), height: fs(440), borderRadius: fs(10), overflow: 'hidden' }}>
+            <svg viewBox="0 0 100 110" preserveAspectRatio="xMidYMid slice" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }}>
+              <defs>
+                <linearGradient id={`lb-share-sky-${theme}`} x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#FFC07A"/>
+                  <stop offset="35%" stopColor="#E48864"/>
+                  <stop offset="65%" stopColor="#7B6B70"/>
+                  <stop offset="100%" stopColor="#2F4A4D"/>
+                </linearGradient>
+                <radialGradient id={`lb-share-sun-${theme}`} cx="50%" cy="40%" r="22%">
+                  <stop offset="0%" stopColor="#FFE9C0" stopOpacity="0.95"/>
+                  <stop offset="100%" stopColor="#FFE9C0" stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width="100" height="110" fill={`url(#lb-share-sky-${theme})`}/>
+              <circle cx="50" cy="42" r="6.5" fill="#FFE9C0" opacity="0.92"/>
+              <rect width="100" height="110" fill={`url(#lb-share-sun-${theme})`}/>
+              <path d="M0 78 Q 14 72 28 76 T 56 74 T 84 77 T 100 75 L 100 110 L 0 110 Z" fill="#1F2A2E" opacity="0.7"/>
+              <path d="M0 86 Q 18 81 36 84 T 72 83 T 100 86 L 100 110 L 0 110 Z" fill="#0F1517" opacity="0.92"/>
+              <path d="M0 94 Q 20 90 40 92 T 80 92 T 100 94 L 100 110 L 0 110 Z" fill="#070C0E"/>
+            </svg>
+            <div style={{
+              position: 'absolute', bottom: fs(14), left: fs(12), right: fs(12),
+              padding: `${fs(9)}px ${fs(12)}px`,
+              borderRadius: fs(6),
+              background: overlayBg, color: inkOnPhoto,
+              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+              fontSize: fs(10), letterSpacing: 0.6, lineHeight: 1.3,
+              display: 'flex', alignItems: 'center', gap: fs(7),
+            }}>
+              <span style={{ width: fs(5), height: fs(5), borderRadius: '50%', background: '#7BA3A6', flexShrink: 0 }}/>
+              <span>CIG-FREE 13D · WAVE #35 · RODE 5:00</span>
+            </div>
+          </div>
+
+          <div style={{ position: 'absolute', top: fs(560), left: fs(20), fontSize: fs(10), letterSpacing: 2.2, color: p.mute, textTransform: 'uppercase', fontWeight: 500 }}>Overlay</div>
+
+          <div style={{ position: 'absolute', top: fs(584), left: fs(18), right: fs(18), display: 'flex', gap: fs(7), justifyContent: 'space-between' }}>
+            {tiles.map((t, i) => (
+              <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: fs(6) }}>
+                <div style={{
+                  width: '100%', aspectRatio: '1 / 1.05', borderRadius: fs(8),
+                  background: t.dark ? p.ink : p.sandDim,
+                  border: t.selected ? `1.5px solid ${p.ink}` : `0.5px solid ${p.line}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  padding: fs(6), boxSizing: 'border-box', overflow: 'hidden',
+                }}>
+                  {t.glyph}
+                </div>
+                <div style={{ fontSize: fs(10), color: p.ink, fontWeight: t.selected ? 600 : 400 }}>{t.name}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ position: 'absolute', bottom: fs(38), left: fs(18), right: fs(18), height: fs(54), borderRadius: fs(14), background: p.ink, color: p.sand, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: fs(8), fontSize: fs(15), fontWeight: 500 }}>
+            <svg width={fs(16)} height={fs(16)} viewBox="0 0 24 24" fill="none" stroke={p.sand} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4v12M5 11l7-7 7 7"/><path d="M5 21h14"/></svg>
+            Share
+          </div>
+        </div>
+
+        <div style={{
+          position: 'absolute', top: width * 0.04, left: '50%', transform: 'translateX(-50%)',
+          width: width * 0.27, height: width * 0.025, borderRadius: width * 0.025, background: '#000', zIndex: 5,
+        }}/>
+      </div>
+    </div>
+  );
+}
+
+function LBShare() {
+  const { theme } = React.useContext(LBThemeCtx);
+  const points = [
+    { t: 'Pick any photo',      d: 'Selfie, sunset, your dog — anything from your camera roll. Or a clean color block if you want minimal.' },
+    { t: 'Five overlay styles', d: 'Minimal, Strava, Ticker, Polaroid, Receipt. Tap to switch. Light or dark. Show or hide any stat.' },
+    { t: 'Renders on-device',   d: "The composite is built on your phone. Nothing uploads to us — you drop the finished image into the share sheet yourself." },
+    { t: 'Bring people in',     d: 'Group chat, Story, feed, fridge. Public accountability is the fastest streak insurance there is.' },
+  ];
+  return (
+    <LBSection id="share" bg={LBtheme.bg2} py={140}>
+      <div className="lb-grid-2" style={{ gap: 80, alignItems: 'center' }}>
+        <div>
+          <LBTag color={LBtheme.coral}>Share the win</LBTag>
+          <h2 className="lb-section-h2" style={{ fontFamily: LBgrotesk, fontSize: 64, fontWeight: 700, letterSpacing: -2.4, lineHeight: 1, color: LBtheme.ink, marginTop: 24 }}>
+            Strava for the things<br/><span style={{ color: LBtheme.coral }}>you didn't do.</span>
+          </h2>
+          <p style={{ fontFamily: LBgrotesk, fontSize: 17, lineHeight: 1.6, color: LBtheme.inkDim, marginTop: 24, maxWidth: 520 }}>
+            Pick a photo, slap your stats on it, post. After every wave you ride, Urge Surfer overlays your streak, wave count, and time onto the image of your choice — five overlay styles, all rendered on-device. Public wins make the next wave easier to ride.
+          </p>
+          <div style={{ marginTop: 36, display: 'flex', flexDirection: 'column', gap: 18 }}>
+            {points.map((pt, i) => (
+              <div key={i} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={LBtheme.coral} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}>
+                  <path d="M5 12l4 4 10-10"/>
+                </svg>
+                <div>
+                  <div style={{ fontFamily: LBgrotesk, fontSize: 17, fontWeight: 600, color: LBtheme.ink, letterSpacing: -0.3 }}>{pt.t}</div>
+                  <div style={{ fontFamily: LBgrotesk, fontSize: 14.5, color: LBtheme.inkDim, lineHeight: 1.55, marginTop: 4 }}>{pt.d}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <LBSharePhone width={340} theme={theme}/>
+        </div>
+      </div>
+    </LBSection>
+  );
+}
+
 // ── App preview ─────────────────────────────────────────────
 function LBPreview() {
   const { theme } = React.useContext(LBThemeCtx);
@@ -513,7 +707,7 @@ function LBFounder() {
             That timer worked when nothing else had. So I built one that doesn't look like a kitchen appliance — and that doesn't bill me €70 a year for the privilege of using it.
           </p>
           <p style={{ fontFamily: LBgrotesk, fontSize: 17, lineHeight: 1.6, color: LBtheme.inkDim, marginTop: 16 }}>
-            €5 covers a few coffees. That feels right for a tool that helped me get my life back.
+            €9,99 covers a few coffees. That feels right for a tool that helped me get my life back.
           </p>
           <p style={{ fontFamily: LBgrotesk, fontSize: 17, lineHeight: 1.6, color: LBtheme.inkDim, marginTop: 16, fontStyle: 'italic' }}>
             — Abhay
@@ -610,12 +804,12 @@ function LBPrivacy() {
 // ── FAQ ─────────────────────────────────────────────────────
 function LBFAQ() {
   const items = [
-    { q: 'Wait, really, no subscription?', a: 'No subscription. No ads. No premium tier. €5 in the App Store, the app is yours, free updates forever.' },
+    { q: 'Wait, really, no subscription?', a: 'No subscription. No ads. No premium tier. €9,99 in the App Store, the app is yours, free updates forever.' },
     { q: 'How does this compare to Quitter / Smoke Free / etc.?', a: "Those are great if you want stats and streaks for one specific addiction. Urge Surfer is a generalized urge-management tool — it works for any craving, in any moment. Smaller surface, smaller scope." },
     { q: 'Will this cure my addiction?', a: "No app cures an addiction. Urge Surfer is a tool. It pairs well with therapy, AA, NRT, SMART recovery — anything that's already supporting you. Not a replacement for professional help." },
     { q: 'What about my data?', a: 'On-device only. No accounts, no cloud, no analytics, no third-party SDKs. If you delete the app, your data is gone. We literally cannot see it — see the Privacy section above.' },
     { q: 'Android? Web?', a: "iPhone-only at launch. Android when we can do it well — sign up at urgesurfer.app/android to be told." },
-    { q: "Can I gift it?", a: 'Yes. Apple now supports gifting in-app purchases — buy one for someone trying to quit. €5 is the easiest "I see you" you can send.' },
+    { q: "Can I gift it?", a: 'Yes. Apple now supports gifting in-app purchases — buy one for someone trying to quit. €9,99 is the easiest "I see you" you can send.' },
   ];
   const [open, setOpen] = React.useState(0);
   return (
@@ -736,6 +930,7 @@ function LandingB() {
         <LBPrivacy/>
         <LBHow/>
         <LBScience/>
+        <LBShare/>
         <LBFounder/>
         <LBFAQ/>
         <LBCTA/>
