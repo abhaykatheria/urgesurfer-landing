@@ -681,7 +681,7 @@ function PBOverlay() {
             streaks: { ...prev.streaks, [prev.urgeId]: prev.streaks[prev.urgeId] + 1 },
             log: [{ date: pbToday(), t: pbNow(), u: prev.urgeId, r: `Rode ${fmt(prev.duration)} 📸`, dur: prev.duration, ok: true, intensity: prev.intensity, trigger: null }, ...prev.log].slice(0, 50),
           };
-        })}><div style={{ fontSize: 15, color: PB.kelp, fontWeight: 500 }}>Post</div></PBPress>
+        })}><div style={{ fontSize: 15, color: PB.kelp, fontWeight: 500 }}>Save</div></PBPress>
       </div>
 
       <div style={{ position: 'absolute', top: 118, left: 24, right: 24, aspectRatio: '1',
